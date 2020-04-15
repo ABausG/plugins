@@ -64,6 +64,14 @@ class GoogleMapController {
       case 'marker#onTap':
         _googleMapState.onMarkerTap(call.arguments['markerId']);
         break;
+      case 'marker#onDrag':
+        _googleMapState.onMarkerDrag(call.arguments['markerId'],
+            LatLng._fromJson(call.arguments['position']));
+        break;
+      case 'marker#onDragStart':
+        _googleMapState.onMarkerDragStart(call.arguments['markerId'],
+            LatLng._fromJson(call.arguments['position']));
+        break;
       case 'marker#onDragEnd':
         _googleMapState.onMarkerDragEnd(call.arguments['markerId'],
             LatLng._fromJson(call.arguments['position']));
