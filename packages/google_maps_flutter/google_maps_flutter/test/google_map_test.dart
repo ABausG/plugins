@@ -392,7 +392,7 @@ void main() {
         textDirection: TextDirection.ltr,
         child: GoogleMap(
           initialCameraPosition: CameraPosition(target: LatLng(10.0, 15.0)),
-          zoomControlsEnabled: false,
+          
         ),
       ),
     );
@@ -407,7 +407,7 @@ void main() {
         textDirection: TextDirection.ltr,
         child: GoogleMap(
           initialCameraPosition: CameraPosition(target: LatLng(10.0, 15.0)),
-          zoomControlsEnabled: true,
+          
         ),
       ),
     );

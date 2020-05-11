@@ -66,15 +66,15 @@ class GoogleMapController {
         break;
       case 'marker#onDrag':
         _googleMapState.onMarkerDrag(call.arguments['markerId'],
-            LatLng._fromJson(call.arguments['position']));
+            LatLng.fromJson(call.arguments['position']));
         break;
       case 'marker#onDragStart':
         _googleMapState.onMarkerDragStart(call.arguments['markerId'],
-            LatLng._fromJson(call.arguments['position']));
+            LatLng.fromJson(call.arguments['position']));
         break;
       case 'marker#onDragEnd':
         _googleMapState.onMarkerDragEnd(call.arguments['markerId'],
-            LatLng._fromJson(call.arguments['position']));
+            LatLng.fromJson(call.arguments['position']));
         break;
       case 'infoWindow#onTap':
         _googleMapState.onInfoWindowTap(call.arguments['markerId']);
@@ -89,11 +89,11 @@ class GoogleMapController {
         _googleMapState.onCircleTap(call.arguments['circleId']);
         break;
       case 'map#onTap':
-        _googleMapState.onTap(LatLng._fromJson(call.arguments['position']));
+        _googleMapState.onTap(LatLng.fromJson(call.arguments['position']));
         break;
       case 'map#onLongPress':
         _googleMapState
-            .onLongPress(LatLng._fromJson(call.arguments['position']));
+            .onLongPress(LatLng.fromJson(call.arguments['position']));
         break;
       default:
         throw MissingPluginException();
@@ -122,11 +122,11 @@ class GoogleMapController {
   /// platform side.
   ///
   /// The returned [Future] completes after listeners have been notified.
-  Future<void> _updateMarkers(_MarkerUpdates markerUpdates) async {
+  Future<void> _updateMarkers(MarkerUpdates markerUpdates) async {
     assert(markerUpdates != null);
     await channel.invokeMethod<void>(
       'markers#update',
-      markerUpdates._toMap(),
+      markerUpdates.toJson(),
     );
   }
 
@@ -136,11 +136,11 @@ class GoogleMapController {
   /// platform side.
   ///
   /// The returned [Future] completes after listeners have been notified.
-  Future<void> _updatePolygons(_PolygonUpdates polygonUpdates) async {
+  Future<void> _updatePolygons(PolygonUpdates polygonUpdates) async {
     assert(polygonUpdates != null);
     await channel.invokeMethod<void>(
       'polygons#update',
-      polygonUpdates._toMap(),
+      polygonUpdates.toJson(),
     );
   }
 
@@ -150,11 +150,11 @@ class GoogleMapController {
   /// platform side.
   ///
   /// The returned [Future] completes after listeners have been notified.
-  Future<void> _updatePolylines(_PolylineUpdates polylineUpdates) async {
+  Future<void> _updatePolylines(PolylineUpdates polylineUpdates) async {
     assert(polylineUpdates != null);
     await channel.invokeMethod<void>(
       'polylines#update',
-      polylineUpdates._toMap(),
+      polylineUpdates.toJson(),
     );
   }
 
@@ -164,11 +164,11 @@ class GoogleMapController {
   /// platform side.
   ///
   /// The returned [Future] completes after listeners have been notified.
-  Future<void> _updateCircles(_CircleUpdates circleUpdates) async {
+  Future<void> _updateCircles(CircleUpdates circleUpdates) async {
     assert(circleUpdates != null);
     await channel.invokeMethod<void>(
       'circles#update',
-      circleUpdates._toMap(),
+      circleUpdates.toJson(),
     );
   }
 
@@ -178,7 +178,7 @@ class GoogleMapController {
   /// platform side.
   Future<void> animateCamera(CameraUpdate cameraUpdate) async {
     await channel.invokeMethod<void>('camera#animate', <String, dynamic>{
-      'cameraUpdate': cameraUpdate._toJson(),
+      'cameraUpdate': cameraUpdate.toJson(),
     });
   }
 
@@ -188,7 +188,7 @@ class GoogleMapController {
   /// platform side.
   Future<void> moveCamera(CameraUpdate cameraUpdate) async {
     await channel.invokeMethod<void>('camera#move', <String, dynamic>{
-      'cameraUpdate': cameraUpdate._toJson(),
+      'cameraUpdate': cameraUpdate.toJson(),
     });
   }
 
@@ -218,8 +218,8 @@ class GoogleMapController {
   Future<LatLngBounds> getVisibleRegion() async {
     final Map<String, dynamic> latLngBounds =
         await channel.invokeMapMethod<String, dynamic>('map#getVisibleRegion');
-    final LatLng southwest = LatLng._fromJson(latLngBounds['southwest']);
-    final LatLng northeast = LatLng._fromJson(latLngBounds['northeast']);
+    final LatLng southwest = LatLng.fromJson(latLngBounds['southwest']);
+    final LatLng northeast = LatLng.fromJson(latLngBounds['northeast']);
 
     return LatLngBounds(northeast: northeast, southwest: southwest);
   }
@@ -231,7 +231,7 @@ class GoogleMapController {
   /// of the map, not necessarily of the whole screen.
   Future<ScreenCoordinate> getScreenCoordinate(LatLng latLng) async {
     final Map<String, int> point = await channel.invokeMapMethod<String, int>(
-        'map#getScreenCoordinate', latLng._toJson());
+        'map#getScreenCoordinate', latLng.toJson());
     return ScreenCoordinate(x: point['x'], y: point['y']);
   }
 
@@ -241,7 +241,7 @@ class GoogleMapController {
   /// pixels (not display pixels) relative to the top left of the map, not top left of the whole screen.
   Future<LatLng> getLatLng(ScreenCoordinate screenCoordinate) async {
     final List<dynamic> latLng = await channel.invokeMethod<List<dynamic>>(
-        'map#getLatLng', screenCoordinate._toJson());
+        'map#getLatLng', screenCoordinate.toJson());
     return LatLng(latLng[0], latLng[1]);
   }
 

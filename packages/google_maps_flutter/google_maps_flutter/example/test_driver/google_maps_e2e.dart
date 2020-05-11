@@ -251,7 +251,6 @@ void main() {
         child: GoogleMap(
           key: key,
           initialCameraPosition: _kInitialCameraPosition,
-          zoomControlsEnabled: false,
           onMapCreated: (GoogleMapController controller) {
             fail("OnMapCreated should get called only once.");
           },
