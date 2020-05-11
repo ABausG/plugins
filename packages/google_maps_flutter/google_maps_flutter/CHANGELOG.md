@@ -1,3 +1,7 @@
+## 0.5.28
+
+* Add support for holes in Polygons.
+
 ## 0.5.27+1
 
 * Remove endorsement of `web` platform, it's not ready yet.
